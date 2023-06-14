@@ -1,0 +1,46 @@
+{
+  "name": "jsexpert-lib",
+  "main": "./dist/my-lib.umd.cjs",
+  "version": "0.0.1",
+  "type": "module",
+  "module": "./dist/jsexpert-lib.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/jsexpert-lib.js",
+      "require": "./dist/jsexpert-lib.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.3.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vite-plugin-dts": "^2.3.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "description": "This is a simple utility package",
+  "author": "Neeraj Dana",
+  "license": "MIT",
+  "homepage": "Jsexpert.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neerajdana996/jsexpert-lib"
+  },
+  "bugs": {
+    "url": "https://github.com/neerajdana996/jsexpert-lib/issues"
+  },
+  "keywords": [
+    "jsexpert"
+  ]
+}
