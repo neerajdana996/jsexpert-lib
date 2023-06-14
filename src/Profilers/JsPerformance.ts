@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import { ApiPerformanceObject } from "../Models/ApiPerformanceModel";
+import { RequestObjectMapper } from "../Mappers/ReqToRequestObject";
 
 const JsPerformance = (req:Request, res:Response, next : NextFunction) => {
     const start = process.hrtime(); // Start measuring request processing time
@@ -9,12 +11,23 @@ const JsPerformance = (req:Request, res:Response, next : NextFunction) => {
       const durationInMilliseconds = (end[0] * 1000) + (end[1] / 1e6); // Convert to milliseconds
   
       // Log performance metrics
+
+      const performanceObject:ApiPerformanceObject = {
+        requestObject:RequestObjectMapper(req),
+        durationInMilliseconds,
+        memoryUsage:process.memoryUsage().heapUsed,
+        reqSize:req.socket.bytesRead,
+        resSize:req.socket.bytesWritten,
+        resStatus:res.statusCode
+
+      }
+      console.log('performanceObject',performanceObject);
       console.log(`Request URL: ${req.originalUrl}`);
       console.log(`Request EndPoint: ${req.path}`);
       console.log(`Request Params: ${req.params}`);
       console.log(`Request Query: ${req.query}`);
       console.log(`Request Body: ${req.body}`);
-      console.log(`Request Body: ${req.body}`);
+
       console.log(`Request Headers: ${req.headers}`);
       console.log(`Request Host: ${req.hostname}`);
       console.log(`Request IP: ${req.ip}`);
@@ -24,13 +37,19 @@ const JsPerformance = (req:Request, res:Response, next : NextFunction) => {
       console.log(`Request Stale: ${req.stale}`);
       console.log(`Request Secure: ${req.secure}`);
       console.log(`Request XHR: ${req.xhr}`);
-      
+
 
 
 
       console.log(`Request Method: ${req.method}`);
       console.log(`Response Time: ${durationInMilliseconds}ms`);
       console.log(`Memory Usage: ${process.memoryUsage().heapUsed} bytes`);
+      console.log(`Request Size: ${req.socket.bytesRead} bytes`);
+      console.log(`Response Size: ${req.socket.bytesWritten} bytes`);
+      console.log(`Response Status: ${res.statusCode}`);
+
+
+
   
       // You can perform further actions with the metrics, such as storing them in a database or sending them to a monitoring system
   
