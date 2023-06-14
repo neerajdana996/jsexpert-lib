@@ -5,5 +5,5 @@ export interface DbPerformanceObject {
     durationInMilliseconds: number
     query: string
     collectionName: string
-    
+    [key: string]: any
 }
