@@ -1,7 +1,7 @@
 {
   "name": "jsexpert-lib",
   "main": "./dist/my-lib.umd.cjs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "module": "./dist/jsexpert-lib.js",
   "types": "./dist/index.d.ts",
