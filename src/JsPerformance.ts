@@ -10,6 +10,24 @@ const JsPerformance = (req:Request, res:Response, next : NextFunction) => {
   
       // Log performance metrics
       console.log(`Request URL: ${req.originalUrl}`);
+      console.log(`Request EndPoint: ${req.path}`);
+      console.log(`Request Params: ${req.params}`);
+      console.log(`Request Query: ${req.query}`);
+      console.log(`Request Body: ${req.body}`);
+      console.log(`Request Body: ${req.body}`);
+      console.log(`Request Headers: ${req.headers}`);
+      console.log(`Request Host: ${req.hostname}`);
+      console.log(`Request IP: ${req.ip}`);
+      console.log(`Request Protocol: ${req.protocol}`);
+      console.log(`Request Cookies: ${req.cookies}`);
+      console.log(`Request Fresh: ${req.fresh}`);
+      console.log(`Request Stale: ${req.stale}`);
+      console.log(`Request Secure: ${req.secure}`);
+      console.log(`Request XHR: ${req.xhr}`);
+      
+
+
+
       console.log(`Request Method: ${req.method}`);
       console.log(`Response Time: ${durationInMilliseconds}ms`);
       console.log(`Memory Usage: ${process.memoryUsage().heapUsed} bytes`);
