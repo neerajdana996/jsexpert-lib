@@ -22,7 +22,8 @@ const MongoPerformance = function (schema:any) {
       durationInMilliseconds:queryTimeInMs,
       query:JSON.stringify(this.getQuery()),
       collectionName:collectionName,
-      populatedPaths:this._mongooseOptions.populatedPaths
+      populatedPaths:this.getPopulatedPaths(),
+      options:this.getOptions()
 
     }
     // Log the query metrics with API path
