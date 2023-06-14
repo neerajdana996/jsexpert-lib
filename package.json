@@ -1,7 +1,7 @@
 {
   "name": "jsexpert-lib",
   "main": "./dist/my-lib.umd.cjs",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "module": "./dist/jsexpert-lib.js",
   "types": "./dist/index.d.ts",
@@ -15,7 +15,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "push":"yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master  && npm publish "
+    "push": "yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master  && npm publish "
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
