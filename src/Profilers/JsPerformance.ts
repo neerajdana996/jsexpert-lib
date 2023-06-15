@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ApiPerformanceObject } from "../Models/ApiPerformanceModel";
 import { RequestObjectMapper } from "../Mappers/ReqToRequestObject";
-import axios from 'axios';
+
 const JsPerformance = (req: Request, res: Response, next: NextFunction,
   clientId: string, clientSecret: string
 ) => {
@@ -24,16 +24,16 @@ const JsPerformance = (req: Request, res: Response, next: NextFunction,
 
     }
 
-    axios.post('https://squid-app-dzgtl.ondigitalocean.app/server-data/', { data: performanceObject }, {
+    fetch('https://squid-app-dzgtl.ondigitalocean.app/server-data/', {
+      method: 'POST',
+      body: JSON.stringify({data:performanceObject}),
       headers: {
         'Content-Type': 'application/json',
         clientId,
         clientSecret
       }
-    }).then((res) => {
-      console.log(`statusCode: ${res.status}`)
-      console.log(res)
     })
+  
 
 
 
