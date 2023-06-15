@@ -30,6 +30,7 @@ interface IJsPertProfiler {
         clientSecret: string,
     }) => void
     getJsServerPerformanceMiddeleware: (req: Request, res: Response, next: NextFunction) => void
+    getJsDbPerformanceMiddeleware: (schema:any) => void
 }
 
 export default JsexpertProfiler
