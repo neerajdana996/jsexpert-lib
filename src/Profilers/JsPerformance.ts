@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ApiPerformanceObject } from "../Models/ApiPerformanceModel";
 import { RequestObjectMapper } from "../Mappers/ReqToRequestObject";
+import { saveJsPerformance } from "../Services/requestApiService";
 
 const JsPerformance = (req: Request, res: Response, next: NextFunction,
   clientId: string, clientSecret: string
@@ -24,18 +25,7 @@ const JsPerformance = (req: Request, res: Response, next: NextFunction,
 
     }
 
-    fetch('https://squid-app-dzgtl.ondigitalocean.app/server-data/', {
-      method: 'POST',
-      body: JSON.stringify({data:performanceObject}),
-      headers: {
-        'Content-Type': 'application/json',
-        clientId,
-        clientSecret
-      }
-    })
-  
-
-
+    saveJsPerformance(performanceObject, clientId, clientSecret)
 
     // You can perform further actions with the metrics, such as storing them in a database or sending them to a monitoring system
 

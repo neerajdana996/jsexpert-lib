@@ -1,8 +1,9 @@
 
 
 import { DbPerformanceObject } from "../Models/DbPerformanceModel";
+import { saveMongoosePerformance } from "../Services/requestApiService";
 
-const MongoPerformance = function (schema:any) {
+const MongoPerformance = function (schema:any, clientId:string, clientSecret:string) {
   // Intercept find method calls
   schema.pre('find', function (next:any) {
     // Store the start time of the query
@@ -17,7 +18,7 @@ const MongoPerformance = function (schema:any) {
 
     // Get the API path from the Mongoose model's collection name
     const collectionName = this.model.collection.name;
-    const apiPath = collectionName.slice(0, collectionName.lastIndexOf('s'));
+    
     const performanceObject:DbPerformanceObject = {
       durationInMilliseconds:queryTimeInMs,
       query:JSON.stringify(this.getQuery()),
@@ -26,11 +27,7 @@ const MongoPerformance = function (schema:any) {
       options:this.getOptions()
 
     }
-    // Log the query metrics with API path
-    console.log(`API Path: /${apiPath}`);
-    console.log(`MongoDB Query: ${collectionName}`);
-    console.log(`Query Execution Time: ${queryTimeInMs}ms`);
-    console.log(`performanceObject DB`,performanceObject);
+    saveMongoosePerformance(performanceObject, clientId, clientSecret)
 
     next();
   });

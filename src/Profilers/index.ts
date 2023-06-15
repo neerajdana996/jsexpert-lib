@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import JsPerformance from "./JsPerformance"
+import MongoPerformance from "./mongooseProfiler"
 
 class JsexpertProfiler implements IJsPertProfiler {
     clientSecret!: string
@@ -13,10 +14,11 @@ class JsexpertProfiler implements IJsPertProfiler {
         this.clientSecret = clientSecret
     }
     getJsServerPerformanceMiddeleware = (req: Request, res: Response, next: NextFunction) => {
-        console.log('this',this)
         return JsPerformance(req, res, next, this.clientId, this.clientSecret)
     }
-
+    getJsDbPerformanceMiddeleware = (schema:any) => {
+        return MongoPerformance(schema, this.clientId, this.clientSecret)
+    }
 
 }
 
