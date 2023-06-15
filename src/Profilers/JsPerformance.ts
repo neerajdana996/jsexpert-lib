@@ -24,7 +24,7 @@ const JsPerformance = (req: Request, res: Response, next: NextFunction,
 
     }
 
-    axios.post('http://localhost:3001/server-data/', { data: performanceObject }, {
+    axios.post('https://squid-app-dzgtl.ondigitalocean.app/server-data/', { data: performanceObject }, {
       headers: {
         'Content-Type': 'application/json',
         clientId,
