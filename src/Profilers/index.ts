@@ -12,7 +12,8 @@ class JsexpertProfiler implements IJsPertProfiler {
         this.clientId = clientId
         this.clientSecret = clientSecret
     }
-    getJsServerPerformanceMiddeleware(req: Request, res: Response, next: NextFunction) {
+    getJsServerPerformanceMiddeleware = (req: Request, res: Response, next: NextFunction) => {
+        console.log('this',this)
         return JsPerformance(req, res, next, this.clientId, this.clientSecret)
     }
 
