@@ -29,9 +29,7 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "express": "^4.18.2"
-  },
+ 
   "description": "This is a simple utility package",
   "author": "Neeraj Dana",
   "license": "MIT",
