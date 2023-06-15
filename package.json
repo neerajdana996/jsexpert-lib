@@ -1,7 +1,7 @@
 {
   "name": "jsexpert-lib",
   "main": "./dist/my-lib.umd.cjs",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "type": "module",
   "module": "./dist/jsexpert-lib.js",
   "types": "./dist/index.d.ts",
@@ -29,7 +29,6 @@
   "files": [
     "dist"
   ],
- 
   "description": "This is a simple utility package",
   "author": "Neeraj Dana",
   "license": "MIT",
