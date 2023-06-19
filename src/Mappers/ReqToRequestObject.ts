@@ -8,7 +8,7 @@ export const RequestObjectMapper = (req: Request): RequestObject => {
         params: req.params,
         query: req.query,
         body: req.body,
-        headers: req.headers,
+        headers: "No headers",
         hostname: req.hostname,
         ip: req.ip,
         protocol: req.protocol,

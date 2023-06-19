@@ -14,6 +14,7 @@ const JsPerformance = (req: Request, res: Response, next: NextFunction,
     const durationInMilliseconds = (end[0] * 1000) + (end[1] / 1e6); // Convert to milliseconds
 
     // Log performance metrics
+    performance.measure('request', 'start', 'finish');
 
     const performanceObject: ApiPerformanceObject = {
       requestObject: RequestObjectMapper(req),
