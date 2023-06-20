@@ -14,6 +14,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
     "preview": "vite preview",
     "push": "yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master && npm version minor   && npm publish "
   },
