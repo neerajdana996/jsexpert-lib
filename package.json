@@ -2,13 +2,13 @@
   "name": "jsexpert-lib",
   "version": "0.21.1",
   "type": "module",
-  "module": "./dist/jsexpert-lib.js",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/jsexpert-lib.js",
-      "require": "./dist/jsexpert-lib.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
