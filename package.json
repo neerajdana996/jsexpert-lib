@@ -16,7 +16,7 @@
     "build": "tsc && vite build",
     "postversion": "git push && git push --tags",
     "preview": "vite preview",
-    "push": "yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master && npm version minor   && npm publish "
+    "push": "yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master && npm version patch "
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
@@ -44,6 +44,7 @@
   ],
   "dependencies": {
     "axios": "^1.4.0",
+    "got": "^13.0.0",
     "node-fetch": "^3.3.1"
   }
 }
