@@ -1,5 +1,6 @@
+
 export const saveJsPerformance = async (data: any,clientId:any,clientSecret:any) => {
-    const response = await fetch('https://squid-app-dzgtl.ondigitalocean.app/server-data/', {
+    const response = await fetch('https://api.jsexpert.io/server-data/', {
         method: 'POST',
         body: JSON.stringify({data}),
         headers: {
@@ -12,7 +13,7 @@ export const saveJsPerformance = async (data: any,clientId:any,clientSecret:any)
 }
 
 export const saveMongoosePerformance = async (data: any,clientId:any,clientSecret:any) => {
-    const response = await fetch('https://squid-app-dzgtl.ondigitalocean.app/db-data/', {
+    const response = await fetch('https://api.jsexpert.io/db-data/', {
         method: 'POST',
         body: JSON.stringify({data}),
         headers: {
