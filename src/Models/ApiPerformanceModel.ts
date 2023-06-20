@@ -1,11 +1,11 @@
-import { RequestObject } from "./RequestObject";
+import { RequestObject } from './RequestObject';
 
-export interface ApiPerformanceObject  {
-    requestObject?: RequestObject | null
+export interface ApiPerformanceObject {
+  requestObject?: RequestObject | null;
 
-    durationInMilliseconds:number
-    memoryUsage:number
-    reqSize:number
-    resSize:number
-    resStatus:number
+  durationInMilliseconds: number;
+  memoryUsage: number;
+  reqSize: number;
+  resSize: number;
+  resStatus: number;
 }

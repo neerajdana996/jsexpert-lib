@@ -1,10 +1,10 @@
 {
   "name": "jsexpert-lib",
-  "main": "./dist/my-lib.umd.cjs",
   "version": "0.21.0",
   "type": "module",
   "module": "./dist/jsexpert-lib.js",
-  "types": "./dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/jsexpert-lib.js",
@@ -13,14 +13,24 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
+    "build": "tsc",
+    "prepare": "npm run build",
     "preview": "vite preview",
     "push": "yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master && npm version minor   && npm publish "
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^20.3.1",
-    "typescript": "^5.0.2",
+    "prettier": "^2.8.8",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^5.1.3",
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.3.0"
   },
@@ -40,6 +50,5 @@
   },
   "keywords": [
     "jsexpert"
-  ],
-  "dependencies": {}
+  ]
 }

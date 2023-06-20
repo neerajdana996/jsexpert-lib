@@ -1,2 +1,1 @@
-export {default as JsexpertProfiler} from './Profilers/index';
-
+export { default as JsexpertProfiler } from './Profilers/index';
