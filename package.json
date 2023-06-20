@@ -13,6 +13,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "test": "echo Hello",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "prepublishOnly": "npm test && npm run lint",
