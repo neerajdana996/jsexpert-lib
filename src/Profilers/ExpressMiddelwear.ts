@@ -29,7 +29,7 @@ const ExpressMiddelwear = (error:Error,req: Request, res: Response, next: NextFu
 
   });
 
-  next();
+  next(error);
 };
 
 export default ExpressMiddelwear;
