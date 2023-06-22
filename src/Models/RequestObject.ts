@@ -1,3 +1,10 @@
+
+export interface ResponseObject {
+    status: number;
+    resSize?: number;
+    error:Error | null | undefined;
+
+}
 export interface RequestObject {
     path: string;
     method: string;
@@ -14,4 +21,5 @@ export interface RequestObject {
     secure: boolean;
     xhr: boolean;
     user? : any;
+    reqSize?: number;
 }

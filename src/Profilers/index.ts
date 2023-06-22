@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import JsPerformance from "./JsPerformance"
 import MongoPerformance from "./mongooseProfiler"
+import ExpressMiddelwear from "./ExpressMiddelwear"
 
 class JsexpertProfiler implements IJsPertProfiler {
     clientSecret!: string
@@ -19,6 +20,9 @@ class JsexpertProfiler implements IJsPertProfiler {
     JsDbPerformanceMiddeleware = (schema:any) => {
         return MongoPerformance(schema, this.clientId, this.clientSecret)
     }
+    JsExpressMiddelwear = (error:Error,req: Request, res: Response, next: NextFunction) => {
+        return ExpressMiddelwear(error,req, res, next, this.clientId, this.clientSecret)
+    }
 
 }
 
@@ -31,6 +35,7 @@ interface IJsPertProfiler {
         
     }) => void
     JsServerPerformanceMiddeleware: (req: Request, res: Response, next: NextFunction) => void
+    JsExpressMiddelwear: (error:Error,req: Request, res: Response, next: NextFunction) => void
     JsDbPerformanceMiddeleware: (schema:any) => void
 }
 

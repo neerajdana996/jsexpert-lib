@@ -3,7 +3,7 @@ import { ApiPerformanceObject } from "../Models/ApiPerformanceModel";
 import { RequestObjectMapper, ResponseObjectMapper } from "../Mappers/ReqToRequestObject";
 import { saveJsPerformance } from "../Services/requestApiService";
 
-const JsPerformance = (req: Request, res: Response, next: NextFunction,
+const ExpressMiddelwear = (error:Error,req: Request, res: Response, next: NextFunction,
   clientId: string, clientSecret: string
 ) => {
   const start = process.hrtime(); // Start measuring request processing time
@@ -18,11 +18,9 @@ const JsPerformance = (req: Request, res: Response, next: NextFunction,
 
     const performanceObject: ApiPerformanceObject = {
       requestObject: RequestObjectMapper(req),
+      responseObject:ResponseObjectMapper(res,error),
       durationInMilliseconds,
       memoryUsage: process.memoryUsage().heapUsed,
-      responseObject : ResponseObjectMapper(res)
-      
-
     }
 
     saveJsPerformance(performanceObject, clientId, clientSecret)
@@ -34,4 +32,4 @@ const JsPerformance = (req: Request, res: Response, next: NextFunction,
   next();
 };
 
-export default JsPerformance;
+export default ExpressMiddelwear;

@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request,Response } from "express";
 import { RequestObject } from "../Models/RequestObject";
 
 export const RequestObjectMapper = (req: Request): RequestObject => {
@@ -16,7 +16,20 @@ export const RequestObjectMapper = (req: Request): RequestObject => {
         fresh: req.fresh,
         stale: req.stale,
         secure: req.secure,
-        xhr: req.xhr
+        xhr: req.xhr,
+        reqSize: req.socket.bytesRead,
+   
+
+    }
+}
+export const ResponseObjectMapper = (res: Response,error:Error|null=null): any => {
+    return {
+        status: res.statusCode,
+        resSize: res.socket?res.socket.bytesWritten:0,
+        error : error ? {
+            name:error?.name,
+            message:error?.message,
+        } : undefined,
 
     }
 }
