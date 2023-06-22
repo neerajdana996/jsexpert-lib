@@ -22,13 +22,15 @@ class JsexpertProfiler implements IJsPertProfiler {
         return MongoPerformance(schema, this.clientId, this.clientSecret)
     }
     JsExpressMiddelwear = (type:'ERROR'|'PERFORMANCE') => {
-        return (error:Error,req: Request, res: Response, next: NextFunction) => {
-            if(type === 'ERROR'){
+        if(type === 'ERROR'){
+            return (error:Error,req: Request, res: Response, next: NextFunction) => {
                 return ExpressErrorMiddelwear(error,req, res, next, this.clientId, this.clientSecret)
             }
+        }
+        return (req: Request, res: Response, next: NextFunction) => {
             return JsPerformance(req, res, next, this.clientId, this.clientSecret)
         }
-        
+
     }
 
 }
@@ -42,7 +44,8 @@ interface IJsPertProfiler {
         
     }) => void
     JsServerPerformanceMiddeleware: (req: Request, res: Response, next: NextFunction) => void
-    JsExpressMiddelwear: (type:'ERROR'|'PERFORMANCE') => (error:Error,req: Request, res: Response, next: NextFunction) => void
+    JsExpressMiddelwear: (type:'ERROR'|'PERFORMANCE') => ((error: Error, req: Request, res: Response, next: NextFunction) => void) 
+        | ((req: Request, res: Response, next: NextFunction) => void)
     JsDbPerformanceMiddeleware: (schema:any) => void
 }
 
