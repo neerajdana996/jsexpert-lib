@@ -3,7 +3,7 @@ import { ApiPerformanceObject } from "../Models/ApiPerformanceModel";
 import { RequestObjectMapper, ResponseObjectMapper } from "../Mappers/ReqToRequestObject";
 import { saveJsPerformance } from "../Services/requestApiService";
 
-const ExpressMiddelwear = (error:Error,req: Request, res: Response, next: NextFunction,
+const ExpressErrorMiddelwear = (error:Error,req: Request, res: Response, next: NextFunction,
   clientId: string, clientSecret: string
 ) => {
   const start = process.hrtime(); // Start measuring request processing time
@@ -32,4 +32,4 @@ const ExpressMiddelwear = (error:Error,req: Request, res: Response, next: NextFu
   next(error);
 };
 
-export default ExpressMiddelwear;
+export default ExpressErrorMiddelwear;
