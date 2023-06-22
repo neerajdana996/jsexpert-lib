@@ -13,8 +13,8 @@ class JsexpertProfiler implements IJsPertProfiler {
         this.clientId = clientId
         this.clientSecret = clientSecret
     }
-    JsServerPerformanceMiddeleware = (req: Request, res: Response, next: NextFunction) => {
-        return JsPerformance(req, res, next, this.clientId, this.clientSecret)
+    JsServerPerformanceMiddeleware = (error:Error,req: Request, res: Response, next: NextFunction) => {
+        return JsPerformance(error,req, res, next, this.clientId, this.clientSecret)
     }
     JsDbPerformanceMiddeleware = (schema:any) => {
         return MongoPerformance(schema, this.clientId, this.clientSecret)
@@ -30,7 +30,7 @@ interface IJsPertProfiler {
         clientSecret: string,
         
     }) => void
-    JsServerPerformanceMiddeleware: (req: Request, res: Response, next: NextFunction) => void
+    JsServerPerformanceMiddeleware: (error:Error,req: Request, res: Response, next: NextFunction) => void
     JsDbPerformanceMiddeleware: (schema:any) => void
 }
 
