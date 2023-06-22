@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import JsPerformance from "./JsPerformance"
 import MongoPerformance from "./mongooseProfiler"
 
-import ExpressErrorMiddelwear from "./ExpressMiddelwear"
+import ExpressErrorMiddelwear from "./ExpressErrorMiddelwear"
 
 class JsexpertProfiler implements IJsPertProfiler {
     clientSecret!: string
