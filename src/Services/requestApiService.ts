@@ -1,5 +1,6 @@
 
 export const saveJsPerformance = async (data: any,clientId:any,clientSecret:any) => {
+    console.log('data',data)
     const response = await fetch('https://api.jsexpert.io/server-data/', {
         method: 'POST',
         body: JSON.stringify({data}),
