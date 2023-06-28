@@ -2,6 +2,7 @@ import { Request,Response } from "express";
 import { RequestObject } from "../Models/RequestObject";
 
 export const RequestObjectMapper = (req: Request): RequestObject => {
+    const date = req?.query?.JsDevreqDate ? new Date(req?.query?.JsDevreqDate as string) : new Date()
     return {
         path: req.path,
         method: req.method,
@@ -18,7 +19,7 @@ export const RequestObjectMapper = (req: Request): RequestObject => {
         secure: req.secure,
         xhr: req.xhr,
         reqSize: req.socket.bytesRead,
-        reqDate: req?.query?.JsDevreqDate || new Date(),
+        reqDate: date
    
 
     }
