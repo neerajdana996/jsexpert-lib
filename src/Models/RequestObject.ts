@@ -22,4 +22,5 @@ export interface RequestObject {
     xhr: boolean;
     user? : any;
     reqSize?: number;
+    reqDate?: any;
 }

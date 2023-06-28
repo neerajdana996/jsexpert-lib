@@ -18,6 +18,7 @@ export const RequestObjectMapper = (req: Request): RequestObject => {
         secure: req.secure,
         xhr: req.xhr,
         reqSize: req.socket.bytesRead,
+        reqDate: req?.query?.JsDevreqDate || new Date(),
    
 
     }
