@@ -2,34 +2,37 @@
 
 import { DbPerformanceObject } from "../Models/DbPerformanceModel";
 import { saveMongoosePerformance } from "../Services/requestApiService";
+const operations = ['find', 'findOne', 'updateOne', 'deleteOne', 'updateMany', 'insertMany', 'deleteMany'];
 
-const MongoPerformance = function (schema:any, clientId:string, clientSecret:string) {
-  // Intercept find method calls
-  schema.pre('find', function (next:any) {
-    // Store the start time of the query
-    this._queryStartTime = process.hrtime();
-    next();
+const MongoPerformance = function (schema: any, clientId: string, clientSecret: string) {
+  operations.forEach(operation => {
+    schema.pre(operation, function (next:any) {
+      this._startTime = Date.now();
+      this._collectionName = this.mongooseCollection.name;
+      this._operationType = operation;
+      next();
+    });
+    
   });
 
-  schema.post('find', function (_:any, next:any) {
-    // Calculate the query execution time
-    const queryEndTime = process.hrtime(this._queryStartTime);
-    const queryTimeInMs = (queryEndTime[0] * 1000) + (queryEndTime[1] / 1e6);
-
-    // Get the API path from the Mongoose model's collection name
-    const collectionName = this.model.collection.name;
-    
-    const performanceObject:DbPerformanceObject = {
-      durationInMilliseconds:queryTimeInMs,
-      query:JSON.stringify(this.getQuery()),
-      collectionName:collectionName,
-      populatedPaths:this.getPopulatedPaths(),
-      options:this.getOptions()
-
-    }
-    saveMongoosePerformance(performanceObject, clientId, clientSecret)
-
-    next();
+  // 'post' middleware for all operations
+  operations.forEach(operation => {
+    schema.post(operation, function (next:any) {
+      const duration = Date.now() - this._startTime;
+      const performanceObject: DbPerformanceObject = {
+        operation: this.op,
+        durationInMilliseconds: duration,
+        query: JSON.stringify(this.getQuery()),
+        collectionName: this._collectionName,
+        populatedPaths: this.getPopulatedPaths(),
+        options: this.getOptions(),
+        operationType: this._operationType,
+  
+      }
+      saveMongoosePerformance(performanceObject, clientId, clientSecret)
+      next();
+      
+    });
   });
 };
 export default MongoPerformance;

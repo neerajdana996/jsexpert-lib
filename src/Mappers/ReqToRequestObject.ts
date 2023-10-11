@@ -20,8 +20,6 @@ export const RequestObjectMapper = (req: Request): RequestObject => {
         xhr: req.xhr,
         reqSize: req.socket.bytesRead,
         reqDate: date
-   
-
     }
 }
 export const ResponseObjectMapper = (res: Response,error:Error|null=null): any => {
