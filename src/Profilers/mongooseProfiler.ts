@@ -2,46 +2,80 @@
 
 import { DbPerformanceObject } from "../Models/DbPerformanceModel";
 import { saveMongoosePerformance } from "../Services/requestApiService";
-const operations = ['find', 'findOne', 'updateOne', 'deleteOne', 'updateMany', 'insertMany', 'deleteMany'];
+
+const docOperations = ['save'];
+const queryOperations = ['find', 'findOne', 'updateOne', 'deleteOne', 'updateMany', 'insertMany', 'deleteMany'];
 
 const MongoPerformance = function (schema: any, clientId: string, clientSecret: string) {
-  console.log('MongoPerformance', clientId, clientSecret);
-  
-  operations.forEach(operation => {
-    schema.pre(operation, function (next:any) {
-      console.log('MongoPerformance pre', operation,this.mongooseCollection.name);
-      this._startTime = Date.now();
-      this._collectionName = this.mongooseCollection.name;
-      this._operationType = operation;
-      next();
-    });
-    
-  });
+  [...queryOperations, ...docOperations].forEach(function (operation) {
+    schema.pre(operation, function (next: any) {
+      try {
+        this._startTime = Date.now();
 
-  // 'post' middleware for all operations
-  operations.forEach(operation => {
-    schema.post(operation, function (next:any) {
-      console.log('MongoPerformance post', operation,this.mongooseCollection.name);
+        // Differentiate between document and query operations
+        this._collectionName = docOperations.includes(operation) ? this.constructor.modelName : this.model.modelName;
 
-      const duration = Date.now() - this._startTime;
-      const performanceObject: DbPerformanceObject = {
-        operation: this.op,
-        durationInMilliseconds: duration,
-        query: JSON.stringify(this.getQuery()),
-        collectionName: this._collectionName,
-        populatedPaths: this.getPopulatedPaths(),
-        options: this.getOptions(),
-        operationType: this._operationType,
-  
+        this._operationType = operation;
+        next && next();
+      } catch (error) {
+        next && next();
       }
-      saveMongoosePerformance(performanceObject, clientId, clientSecret).then((res) => {
-        console.log('saveMongoosePerformance', res);
-      }).catch((err) => {
-        console.log('saveMongoosePerformance error', err);
-      });
-      next();
-      
     });
   });
+  docOperations.forEach(function (operation) {
+    schema.post(operation, function (_: any, next: any) {
+      try {
+        console.log('MongoPerformance post', operation);
+        const duration = Date.now() - this._startTime;
+        const performanceObject: any = {
+          operation: this.op,
+          durationInMilliseconds: duration,
+          collectionName: this._collectionName,
+          operationType: this._operationType,
+        }
+
+        saveMongoosePerformance(performanceObject, clientId, clientSecret).then((res) => {
+          console.log('saveMongoosePerformance', res);
+        }).catch((err) => {
+          console.log('saveMongoosePerformance error', err);
+        });
+        next && next();
+      } catch (error) {
+        console.log('MongoPerformance post error', error);
+        next && next();
+      }
+
+    });
+  })
+  queryOperations.forEach(function (operation) {
+    schema.post(operation, function () {
+      try {
+
+        const duration = Date.now() - this._startTime;
+        const performanceObject: DbPerformanceObject = {
+          operation: this.op,
+          durationInMilliseconds: duration,
+          query: JSON.stringify(this.getQuery()),
+          collectionName: this._collectionName,
+          populatedPaths: this.getPopulatedPaths(),
+          options: this.getOptions(),
+          operationType: this._operationType,
+
+        }
+        saveMongoosePerformance(performanceObject, clientId, clientSecret).then(() => {
+
+        }).catch(() => {
+
+        });
+
+      } catch (error) {
+
+
+      }
+
+    });
+  });
+
+
 };
 export default MongoPerformance;
