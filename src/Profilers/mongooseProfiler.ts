@@ -11,7 +11,6 @@ const MongoPerformance = function (schema: any, clientId: string, clientSecret: 
     schema.pre(operation, function (next: any) {
       try {
         this._startTime = Date.now();
-
         // Differentiate between document and query operations
         this._collectionName = docOperations.includes(operation) ? this.constructor.modelName : this.model.modelName;
 
