@@ -25,23 +25,22 @@ const MongoPerformance = function (schema: any, clientId: string, clientSecret: 
   docOperations.forEach(function (operation) {
     schema.post(operation, function (_: any, next: any) {
       try {
-        console.log('MongoPerformance post', operation);
         const duration = Date.now() - this._startTime;
         const performanceObject: any = {
-          operation: this.op,
+          operation: operation,
           durationInMilliseconds: duration,
           collectionName: this._collectionName,
           operationType: this._operationType,
         }
 
-        saveMongoosePerformance(performanceObject, clientId, clientSecret).then((res) => {
-          console.log('saveMongoosePerformance', res);
-        }).catch((err) => {
-          console.log('saveMongoosePerformance error', err);
+        saveMongoosePerformance(performanceObject, clientId, clientSecret).then(() => {
+         
+        }).catch(() => {
+        
         });
         next && next();
       } catch (error) {
-        console.log('MongoPerformance post error', error);
+       
         next && next();
       }
 

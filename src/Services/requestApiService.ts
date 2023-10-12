@@ -14,7 +14,6 @@ export const saveJsPerformance = async (data: any,clientId:any,clientSecret:any)
 }
 
 export const saveMongoosePerformance = async (data: any,clientId:any,clientSecret:any) => {
-    console.log('saveMongoosePerformance', data,clientId,clientSecret);
     const response = await fetch('https://api.jsexpert.io/db-data/', {
         method: 'POST',
         body: JSON.stringify({data}),
