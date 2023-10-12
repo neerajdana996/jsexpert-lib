@@ -5,6 +5,7 @@ import { saveMongoosePerformance } from "../Services/requestApiService";
 const operations = ['find', 'findOne', 'updateOne', 'deleteOne', 'updateMany', 'insertMany', 'deleteMany'];
 
 const MongoPerformance = function (schema: any, clientId: string, clientSecret: string) {
+  console.log('MongoPerformance', schema, clientId, clientSecret);
   operations.forEach(operation => {
     schema.pre(operation, function (next:any) {
       this._startTime = Date.now();
@@ -29,7 +30,11 @@ const MongoPerformance = function (schema: any, clientId: string, clientSecret: 
         operationType: this._operationType,
   
       }
-      saveMongoosePerformance(performanceObject, clientId, clientSecret)
+      saveMongoosePerformance(performanceObject, clientId, clientSecret).then((res) => {
+        console.log('saveMongoosePerformance', res);
+      }).catch((err) => {
+        console.log('saveMongoosePerformance error', err);
+      });
       next();
       
     });
