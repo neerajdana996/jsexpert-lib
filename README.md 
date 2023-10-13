@@ -1,1 +1,84 @@
-This is a package created to practice building a TypeScript package with Vite.
+# JSExpert Profiler SDK - `jsexpert-lib`
+
+Boost your JavaScript application's performance and reliability with `jsexpert-lib` — a powerful SDK that enables you to monitor API & DB performance and track errors effortlessly.
+
+## 🚀 Features
+
+- **API Performance Monitoring**: Keep tabs on your API requests and responses to optimize their performance.
+- **DB Performance Monitoring**: Ensure your database operations are smooth and efficient.
+- **Error Monitoring**: Stay informed and proactive by catching and analyzing errors in real-time.
+
+## 🛠 Installation
+
+Install the package using npm:
+
+```bash
+npm install jsexpert-lib
+
+🚀 Quick Start
+--------------
+
+Initialize the JSExpert Profiler SDK in your application:
+
+javascriptCopy code
+
+`import { JsexpertProfiler } from "jsexpert-lib"
+
+export const jsexpertProfiler = new JsexpertProfiler()
+jsexpertProfiler.init({
+  clientId: "YOUR_CLIENT_ID",
+  clientSecret: "YOUR_CLIENT_SECRET"
+})`
+
+🔐 Ensure to store your `clientId` and `clientSecret` securely and never expose them in client-side code.
+
+### API Performance Monitoring
+
+Monitor your Express.js API performance by applying the JSExpressMiddleware:
+
+javascriptCopy code
+
+`app.use(jsexpertProfiler.JsExpressMiddelwear('PERFORMANCE'));`
+
+### DB Performance Monitoring
+
+Monitor your Mongoose database interactions with the JsDbPerformanceMiddleware:
+
+javascriptCopy code
+
+`.plugin((schema) => jsexpertProfiler.JsDbPerformanceMiddeleware(schema));`
+
+📘 Documentation
+----------------
+
+Navigate through our [extensive documentation under progress](https://jsexpert.io/#) to explore detailed features, methods, and best practices to get the most out of `jsexpert-lib`.
+
+🔒 Security
+-----------
+
+Data integrity and security are paramount. `jsexpert-lib` adheres to best practices to ensure your data is transmitted and stored securely. Learn more about our [security practices](https://jsexpert.io/#).
+
+📊 Data Handling
+----------------
+
+To understand how `jsexpert-lib` handles, stores, and helps you analyze your data, delve into our [data management guide](https://jsexpert.io/#).
+
+💼 Pricing
+----------
+
+Adopt `jsexpert-lib` as per your needs. Explore our [pricing and subscription plans](https://jsexpert.io/#).
+
+🤝 Contributing
+---------------
+
+We welcome contributors! If you'd like to contribute to `jsexpert-lib`, explore our [contribution guidelines](https://jsexpert.io/#).
+
+📬 Get in Touch
+---------------
+
+Have queries or need support? Reach out to us at <support@jsexpert.com> or explore our [community forum](https://jsexpert.io/#).
+
+📃 License
+----------
+
+`jsexpert-lib` is [MIT licensed](https://jsexpert.io/#).
