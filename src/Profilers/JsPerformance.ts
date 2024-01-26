@@ -47,10 +47,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
       [SemanticResourceAttributes.SERVICE_NAME]: `${projectName}-server`,
     }),
   });
-  return {
-    start: sdk.start,
-    stop: sdk.shutdown
-  }
+  return sdk
 };
 
 

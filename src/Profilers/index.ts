@@ -38,10 +38,7 @@ interface IJsPertProfiler {
 
     }) => void
 
-    getJsPerformanceInstance: (clientId: string, clientSecret: string, projectName: string) => {
-        start: () => void;
-        stop: () => void;
-    }
+    getJsPerformanceInstance: (clientId: string, clientSecret: string, projectName: string) => any
     JsDbPerformanceMiddeleware: (schema: any) => void
 }
 
