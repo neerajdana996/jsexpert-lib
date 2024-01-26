@@ -20,9 +20,10 @@ class JsexpertProfiler implements IJsPertProfiler {
     JsDbPerformanceMiddeleware = (schema: any) => {
         return MongoPerformance(schema, this.clientId, this.clientSecret)
     }
-    getJsPerformanceInstance = () => {
+    startJsPerformanceInstance = () => {
         if (!this.clientId || !this.clientSecret) throw new Error('You need to call init method before getJsPerformance')
-        return JsPerformance(this.clientId, this.clientSecret, this.projectName)
+        const sdk = JsPerformance(this.clientId, this.clientSecret, this.projectName)
+        sdk.start()
     }
 
 }
@@ -38,7 +39,7 @@ interface IJsPertProfiler {
 
     }) => void
 
-    getJsPerformanceInstance: (clientId: string, clientSecret: string, projectName: string) => any
+    startJsPerformanceInstance: (clientId: string, clientSecret: string, projectName: string) => void
     JsDbPerformanceMiddeleware: (schema: any) => void
 }
 
