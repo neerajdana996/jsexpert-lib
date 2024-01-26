@@ -5,6 +5,9 @@
   "type": "module",
   "module": "./dist/jsexpert-lib.js",
   "types": "./dist/index.d.ts",
+  "overrides": {
+    "@opentelemetry/instrumentation": "0.45.0"
+  },
   "exports": {
     ".": {
       "import": "./dist/jsexpert-lib.js",
@@ -43,6 +46,15 @@
     "jsexpert"
   ],
   "dependencies": {
+    "@opentelemetry/api": "^1.7.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.40.3",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.48.0",
+    "@opentelemetry/instrumentation-express": "^0.34.1",
+    "@opentelemetry/node": "^0.24.0",
+    "@opentelemetry/sdk-metrics": "^1.21.0",
+    "@opentelemetry/sdk-node": "^0.48.0",
+    "@opentelemetry/sdk-trace-node": "^1.21.0",
+    "@opentelemetry/tracing": "^0.24.0",
     "axios": "^1.4.0",
     "got": "^13.0.0",
     "node-fetch": "^3.3.1"

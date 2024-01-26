@@ -1,37 +1,57 @@
-import { NextFunction, Request, Response } from "express";
-import { ApiPerformanceObject } from "../Models/ApiPerformanceModel";
-import { RequestObjectMapper, ResponseObjectMapper } from "../Mappers/ReqToRequestObject";
-import { saveJsPerformance } from "../Services/requestApiService";
+import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import { ExpressLayerType } from "@opentelemetry/instrumentation-express";
+import { Resource } from "@opentelemetry/resources";
+import { NodeSDK } from "@opentelemetry/sdk-node";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+/*instrumentation.js*/
+// Require dependencies
 
-const JsPerformance = (req: Request, res: Response, next: NextFunction,
-  clientId: string, clientSecret: string
-) => {
-  const start = process.hrtime(); // Start measuring request processing time
 
-  res.on('finish', () => {
-    const end = process.hrtime(start); // End measuring request processing time
+const JsPerformance = (clientId: string, clientSecret: string, projectName: string) => {
+  console.log('req in the middleware');
+  const exporterOptions = {
+    url: 'https://api.jsexpert.io/v1/traces',
+    headers: {
+      clientId: clientId,
+      clientsecret: clientSecret,
+    },
+  };
 
-    const durationInMilliseconds = (end[0] * 1000) + (end[1] / 1e6); // Convert to milliseconds
+  const traceExporter = new OTLPTraceExporter(exporterOptions);
+  const sdk = new NodeSDK({
+    traceExporter,
+    instrumentations: [
+      getNodeAutoInstrumentations({
+        '@opentelemetry/instrumentation-mongodb': {
+          enabled: true,
+          enhancedDatabaseReporting: true,
+        },
+        '@opentelemetry/instrumentation-express': {
+          ignoreLayersType: [ExpressLayerType.MIDDLEWARE],
+          requestHook: (span, requestInfo) => {
+            span.setAttribute(
+              'http.request.body',
+              JSON.stringify(requestInfo.request.body),
+            );
 
-    // Log performance metrics
-   
-
-    const performanceObject: ApiPerformanceObject = {
-      requestObject: RequestObjectMapper(req),
-      durationInMilliseconds,
-      memoryUsage: process.memoryUsage().heapUsed,
-      responseObject : ResponseObjectMapper(res)
-      
-
-    }
-
-    saveJsPerformance(performanceObject, clientId, clientSecret)
-
-    // You can perform further actions with the metrics, such as storing them in a database or sending them to a monitoring system
-
+            span.setAttribute(
+              'http.request.headers',
+              JSON.stringify(requestInfo.request.headers),
+            );
+          },
+        },
+      }),
+    ],
+    resource: new Resource({
+      [SemanticResourceAttributes.SERVICE_NAME]: `${projectName}-server`,
+    }),
   });
-
-  next();
+  return {
+    start: sdk.start,
+    stop: sdk.shutdown
+  }
 };
+
 
 export default JsPerformance;

@@ -1,34 +1,28 @@
-import { NextFunction, Request, Response } from "express"
 import JsPerformance from "./JsPerformance"
 import MongoPerformance from "./mongooseProfiler"
 
-import ExpressErrorMiddelwear from "./ExpressErrorMiddelwear"
 
 class JsexpertProfiler implements IJsPertProfiler {
     clientSecret!: string
     clientId!: string
+    projectName!: string
     projectId!: string
-    init({ clientId, clientSecret }: {
+    init({ clientId, clientSecret, projectName }: {
         clientId: string,
         clientSecret: string,
+        projectName: string
     }) {
         this.clientId = clientId
         this.clientSecret = clientSecret
+        this.projectName = projectName
     }
 
     JsDbPerformanceMiddeleware = (schema: any) => {
         return MongoPerformance(schema, this.clientId, this.clientSecret)
     }
-    JsExpressMiddelwear = (type: 'ERROR' | 'PERFORMANCE') => {
-        if (type === 'ERROR') {
-            return (error: Error, req: Request, res: Response, next: NextFunction) => {
-                return ExpressErrorMiddelwear(error, req, res, next, this.clientId, this.clientSecret)
-            }
-        }
-        return (req: Request, res: Response, next: NextFunction) => {
-            return JsPerformance(req, res, next, this.clientId, this.clientSecret)
-        }
-
+    getJsPerformanceInstance = () => {
+        if (!this.clientId || !this.clientSecret) throw new Error('You need to call init method before getJsPerformance')
+        return JsPerformance(this.clientId, this.clientSecret, this.projectName)
     }
 
 }
@@ -36,14 +30,18 @@ class JsexpertProfiler implements IJsPertProfiler {
 interface IJsPertProfiler {
     clientId: string
     clientSecret: string
+    projectName: string
     init: (params: {
         clientId: string,
         clientSecret: string,
+        projectName: string
 
     }) => void
 
-    JsExpressMiddelwear: (type: 'ERROR' | 'PERFORMANCE') => ((error: Error, req: Request, res: Response, next: NextFunction) => void)
-        | ((req: Request, res: Response, next: NextFunction) => void)
+    getJsPerformanceInstance: (clientId: string, clientSecret: string, projectName: string) => {
+        start: () => void;
+        stop: () => void;
+    }
     JsDbPerformanceMiddeleware: (schema: any) => void
 }
 
