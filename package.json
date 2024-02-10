@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc",
     "postversion": "git push && git push --tags",
     "preview": "vite preview",
     "push": "yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master && npm version patch "
