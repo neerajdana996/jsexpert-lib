@@ -8,12 +8,6 @@
   "overrides": {
     "@opentelemetry/instrumentation": "0.45.0"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/jsexpert-lib.js",
-      "require": "./dist/jsexpert-lib.umd.cjs"
-    }
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc",
@@ -28,9 +22,6 @@
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.3.0"
   },
-  "files": [
-    "dist"
-  ],
   "description": "This is a simple utility package",
   "author": "Neeraj Dana",
   "license": "MIT",
