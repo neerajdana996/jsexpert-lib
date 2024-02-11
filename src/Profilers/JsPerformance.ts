@@ -163,7 +163,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
   const traceExporter = new OTLPTraceExporter(exporterOptions);
   const consoleSpanExporter = new ConsoleSpanExporter();
   const sdk = new NodeSDK({
-    traceExporter: devMode ? consoleSpanExporter : traceExporter,
+    traceExporter,
     instrumentations: [
       ...additionalInstrumentations,
 
