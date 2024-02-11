@@ -1,4 +1,5 @@
-import JsPerformance from "./JsPerformance"
+import { NodeSDK } from "@opentelemetry/sdk-node";
+import JsPerformance from "./JsPerformance";
 class JsexpertProfiler implements IJsPertProfiler {
     clientSecret!: string
     clientId!: string
@@ -18,7 +19,7 @@ class JsexpertProfiler implements IJsPertProfiler {
         this.clientSecret = clientSecret
         this.projectName = projectName
         if (!this.clientId || !this.clientSecret) throw new Error('You need to call init method before getJsPerformance')
-        JsPerformance(this.clientId, this.clientSecret, this.projectName,
+        return JsPerformance(this.clientId, this.clientSecret, this.projectName,
             additionalInstrumentations, disableInstrumentations, devMode)
 
     }
@@ -39,7 +40,7 @@ interface IJsPertProfiler {
         disableInstrumentations?: any[],
         devMode?: boolean
 
-    }) => void
+    }) => NodeSDK
 }
 
 export default JsexpertProfiler
