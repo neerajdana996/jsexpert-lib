@@ -1,4 +1,4 @@
-export {default as JsexpertProfiler} from './Profilers/index';
+export { default as JsexpertProfiler } from './Profilers/index';
 
 
 // process.on('uncaughtException', function (err) {

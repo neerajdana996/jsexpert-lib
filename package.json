@@ -1,10 +1,9 @@
 {
   "name": "jsexpert-lib",
-  "main": "./dist/my-lib.umd.cjs",
-  "version": "0.22.23",
+  "version": "0.22.21",
   "type": "module",
-  "module": "./dist/jsexpert-lib.js",
-  "types": "./dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "overrides": {
     "@opentelemetry/instrumentation": "0.45.0"
   },
@@ -22,6 +21,9 @@
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.3.0"
   },
+  "files": [
+    "dist"
+  ],
   "description": "This is a simple utility package",
   "author": "Neeraj Dana",
   "license": "MIT",
