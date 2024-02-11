@@ -5,7 +5,8 @@ const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http')
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
 
-const { PrismaInstrumentation } = require('@opentelemetry/instrumentation-prisma');
+const pkg = require('@prisma/instrumentation');
+const { PrismaInstrumentation } = pkg;
 const { ConsoleSpanExporter } = require('@opentelemetry/sdk-trace-base');
 const { NodeSDK } = opentelemetry;
 
