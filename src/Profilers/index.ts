@@ -15,10 +15,9 @@ class JsexpertProfiler implements IJsPertProfiler {
         this.clientSecret = clientSecret
         this.projectName = projectName
         if (!this.clientId || !this.clientSecret) throw new Error('You need to call init method before getJsPerformance')
-        const sdk = JsPerformance(this.clientId, this.clientSecret, this.projectName,
+        JsPerformance(this.clientId, this.clientSecret, this.projectName,
             additionalInstrumentations, disableInstrumentations)
-        console.log('starting sdk')
-        sdk.start()
+
     }
 
 

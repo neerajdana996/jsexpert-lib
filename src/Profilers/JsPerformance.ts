@@ -1,4 +1,5 @@
 
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { ExpressLayerType } from "@opentelemetry/instrumentation-express";
 import { Resource } from "@opentelemetry/resources";
 import { NodeSDK } from "@opentelemetry/sdk-node";
@@ -31,7 +32,6 @@ import {
   RestifyInstrumentation,
   LayerType as RestifyLayerType
 } from "@opentelemetry/instrumentation-restify";
-import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
 import { setParams, setSessionData } from "./helpers";
 export function RedisDbStatementSerializer(command: string, args: Array<any>) {
   const values = []
@@ -159,15 +159,15 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
           new constructor(instrumentationConfigs[name] || {})
       )
   }
-  // const traceExporter = new OTLPTraceExporter(exporterOptions);
-  const traceExporter = new ConsoleSpanExporter();
+  const traceExporter = new OTLPTraceExporter(exporterOptions);
+  // const traceExporter = new ConsoleSpanExporter();
   console.log('transporterOptions', exporterOptions)
   const sdk = new NodeSDK({
     traceExporter,
-    instrumentations: [
-      ...additionalInstrumentations,
-      new PrismaInstrumentation(),
-      ...defaultInstrumentations()
+    instrumentations: [new PrismaInstrumentation(),
+    ...additionalInstrumentations,
+
+    ...defaultInstrumentations()
     ],
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: `${projectName}-server`,
@@ -175,7 +175,8 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     }),
   });
   console.log('SDK Created')
-  return sdk
+  sdk.start()
+  console.log('SDK Started')
 };
 
 
