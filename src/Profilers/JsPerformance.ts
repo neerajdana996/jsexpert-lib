@@ -154,7 +154,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     const instrumentationConfigs =
       defaultInstrumentationsConfig() as Record<string, any>
     return Object.entries(DefaultInstrumentations)
-
+      .filter(([name]) => !disableInstrumentations.includes(name))
       .map(
         ([name, constructor]) =>
           new constructor(instrumentationConfigs[name] || {})
@@ -166,8 +166,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     traceExporter,
     instrumentations: [
       ...additionalInstrumentations,
-
-      defaultInstrumentations()
+      ...defaultInstrumentations()
     ],
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: `${projectName}-server`,
