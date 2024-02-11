@@ -1,5 +1,4 @@
 
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { ExpressLayerType } from "@opentelemetry/instrumentation-express";
 import { Resource } from "@opentelemetry/resources";
 import { NodeSDK } from "@opentelemetry/sdk-node";
@@ -27,10 +26,12 @@ import { NestInstrumentation } from "@opentelemetry/instrumentation-nestjs-core"
 import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
 import { RedisInstrumentation as Redis4Instrumentation } from "@opentelemetry/instrumentation-redis-4";
+
 import {
   RestifyInstrumentation,
   LayerType as RestifyLayerType
 } from "@opentelemetry/instrumentation-restify";
+import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
 import { setParams, setSessionData } from "./helpers";
 export function RedisDbStatementSerializer(command: string, args: Array<any>) {
   const values = []
@@ -158,7 +159,8 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
           new constructor(instrumentationConfigs[name] || {})
       )
   }
-  const traceExporter = new OTLPTraceExporter(exporterOptions);
+  // const traceExporter = new OTLPTraceExporter(exporterOptions);
+  const traceExporter = new ConsoleSpanExporter();
   console.log('transporterOptions', exporterOptions)
   const sdk = new NodeSDK({
     traceExporter,
