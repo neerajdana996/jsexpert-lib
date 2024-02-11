@@ -165,13 +165,14 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     instrumentations: [
       ...additionalInstrumentations,
       new PrismaInstrumentation(),
-      defaultInstrumentations()
+      ...defaultInstrumentations()
     ],
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: `${projectName}-server`,
 
     }),
   });
+  console.log('SDK Created')
   return sdk
 };
 
