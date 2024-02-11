@@ -1,14 +1,15 @@
 
-const opentelemetry = require('@opentelemetry/sdk-node');
-const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
-const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
-const { Resource } = require('@opentelemetry/resources');
-const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { Resource } from '@opentelemetry/resources';
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-base';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import pkg from '@prisma/instrumentation';
 
-const pkg = require('@prisma/instrumentation');
 const { PrismaInstrumentation } = pkg;
-const { ConsoleSpanExporter } = require('@opentelemetry/sdk-trace-base');
-const { NodeSDK } = opentelemetry;
+
+
 
 export function RedisDbStatementSerializer(command: string, args: Array<any>) {
   const values = []
@@ -44,7 +45,11 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     instrumentations: [
       ...additionalInstrumentations,
       new PrismaInstrumentation(),
-      getNodeAutoInstrumentations(),
+      getNodeAutoInstrumentations({
+        '@opentelemetry/instrumentation-fs': {
+          enabled: false,
+        }
+      }),
 
     ],
     resource: new Resource({
