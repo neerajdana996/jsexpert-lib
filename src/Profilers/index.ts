@@ -1,6 +1,4 @@
 import JsPerformance from "./JsPerformance"
-
-
 class JsexpertProfiler implements IJsPertProfiler {
     clientSecret!: string
     clientId!: string
