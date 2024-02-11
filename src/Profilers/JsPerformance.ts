@@ -5,9 +5,9 @@ import { Resource } from '@opentelemetry/resources';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-base';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-import pkg from '@prisma/instrumentation';
+import { PrismaInstrumentation } from '@prisma/instrumentation';
 
-const { PrismaInstrumentation } = pkg;
+
 
 
 
