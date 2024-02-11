@@ -25,8 +25,8 @@ import {
   LayerType as RestifyLayerType
 } from "@opentelemetry/instrumentation-restify"
 import { NodeSDK } from "@opentelemetry/sdk-node"
+import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-base'
 import { PrismaInstrumentation } from "@prisma/instrumentation"
-
 
 
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http'
@@ -161,8 +161,9 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
       )
   }
   const traceExporter = new OTLPTraceExporter(exporterOptions);
+  const consoleSpanExporter = new ConsoleSpanExporter();
   const sdk = new NodeSDK({
-    traceExporter,
+    traceExporter: devMode ? consoleSpanExporter : traceExporter,
     instrumentations: [
       ...additionalInstrumentations,
 
