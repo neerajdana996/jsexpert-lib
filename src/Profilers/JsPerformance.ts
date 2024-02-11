@@ -5,6 +5,7 @@ import { Resource } from "@opentelemetry/resources";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+
 import { PrismaInstrumentation } from '@prisma/instrumentation';
 
 export function RedisDbStatementSerializer(command: string, args: Array<any>) {
