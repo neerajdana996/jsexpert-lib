@@ -5,6 +5,7 @@ const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http')
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
 
+const { PrismaInstrumentation } = require('@opentelemetry/instrumentation-prisma');
 const { ConsoleSpanExporter } = require('@opentelemetry/sdk-trace-base');
 const { NodeSDK } = opentelemetry;
 
@@ -40,7 +41,10 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
   const sdk = new NodeSDK({
     traceExporter: devMode ? consoleSpanExporter : traceExporter,
     instrumentations: [
+      ...additionalInstrumentations,
+      new PrismaInstrumentation(),
       getNodeAutoInstrumentations(),
+
     ],
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: `${projectName}-server`,
