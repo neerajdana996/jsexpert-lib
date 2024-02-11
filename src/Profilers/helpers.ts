@@ -51,47 +51,47 @@ function setPrefixedAttribute(
 }
 
 export function setParams(params: any, span?: Span) {
-  setSerialisedAttribute("appsignal.request.parameters", params, span)
+  setSerialisedAttribute("jsexpert.request.parameters", params, span)
 }
 
 export function setSessionData(sessionData: any, span?: Span) {
-  setSerialisedAttribute("appsignal.request.session_data", sessionData, span)
+  setSerialisedAttribute("jsexpert.request.session_data", sessionData, span)
 }
 
 export function setCustomData(customData: any, span?: Span) {
-  setSerialisedAttribute("appsignal.custom_data", customData, span)
+  setSerialisedAttribute("jsexpert.custom_data", customData, span)
 }
 
 export function setTag(tag: string, value: AttributeValue, span?: Span) {
-  setPrefixedAttribute("appsignal.tag", tag, value, span)
+  setPrefixedAttribute("jsexpert.tag", tag, value, span)
 }
 
 export function setHeader(header: string, value: AttributeValue, span?: Span) {
-  setPrefixedAttribute("appsignal.request.headers", header, value, span)
+  setPrefixedAttribute("jsexpert.request.headers", header, value, span)
 }
 
 export function setName(name: string, span?: Span) {
-  setAttribute("appsignal.name", name, span)
+  setAttribute("jsexpert.name", name, span)
 }
 
 export function setCategory(category: string, span?: Span) {
-  setAttribute("appsignal.category", category, span)
+  setAttribute("jsexpert.category", category, span)
 }
 
 export function setBody(body: string, span?: Span) {
-  setAttribute("appsignal.body", body, span)
+  setAttribute("jsexpert.body", body, span)
 }
 
 export function setSqlBody(body: string, span?: Span) {
-  setAttribute("appsignal.sql_body", body, span)
+  setAttribute("jsexpert.sql_body", body, span)
 }
 
 export function setNamespace(namespace: string, span?: Span) {
-  setAttribute("appsignal.namespace", namespace, span)
+  setAttribute("jsexpert.namespace", namespace, span)
 }
 
 export function setRootName(name: string, span?: Span) {
-  setAttribute("appsignal.root_name", name, span)
+  setAttribute("jsexpert.root_name", name, span)
 }
 
 export function setError(error: Error, span?: Span) {
