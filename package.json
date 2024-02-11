@@ -1,15 +1,14 @@
 {
   "name": "jsexpert-lib",
   "version": "0.22.24",
-  "type": "module",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index",
+  "types": "dist/index",
   "overrides": {
     "@opentelemetry/instrumentation": "0.45.0"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "postversion": "git push && git push --tags",
     "preview": "vite preview",
     "push": "yarn build && git add . && git commit -m 'new build' && git push --set-upstream origin master && npm version patch "
@@ -40,7 +39,7 @@
   ],
   "dependencies": {
     "@opentelemetry/api": "^1.7.0",
-    "@opentelemetry/auto-instrumentations-node": "^0.40.3",
+    "@opentelemetry/auto-instrumentations-node": "^0.41.1",
     "@opentelemetry/exporter-metrics-otlp-http": "^0.48.0",
     "@opentelemetry/instrumentation-express": "^0.34.1",
     "@opentelemetry/node": "^0.24.0",
@@ -48,8 +47,11 @@
     "@opentelemetry/sdk-node": "^0.48.0",
     "@opentelemetry/sdk-trace-node": "^1.21.0",
     "@opentelemetry/tracing": "^0.24.0",
+    "@prisma/instrumentation": "^5.9.1",
     "axios": "^1.4.0",
     "got": "^13.0.0",
-    "node-fetch": "^3.3.1"
+    "node-fetch": "^3.3.1",
+    "tslib": "^2.6.2",
+    "winston": "^3.6.0"
   }
 }
