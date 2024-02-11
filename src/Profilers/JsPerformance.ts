@@ -159,6 +159,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
       )
   }
   const traceExporter = new OTLPTraceExporter(exporterOptions);
+  console.log('transporterOptions', exporterOptions)
   const sdk = new NodeSDK({
     traceExporter,
     instrumentations: [
