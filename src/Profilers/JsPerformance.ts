@@ -44,7 +44,7 @@ export function RedisDbStatementSerializer(command: string, args: Array<any>) {
   }
 }
 const devMode = true;
-const url = devMode ? 'http://localhost:3000' : 'https://api.jsexpert.io/v1/traces';
+const url = devMode ? 'http://localhost:3001' : 'https://api.jsexpert.io/v1/traces';
 const JsPerformance = (clientId: string, clientSecret: string, projectName: string,
   additionalInstrumentations: any[] = [],
   disableInstrumentations: any = []) => {
