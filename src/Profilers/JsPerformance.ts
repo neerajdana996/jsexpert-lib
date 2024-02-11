@@ -143,9 +143,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
           }
         }
       },
-      "@prisma/instrumentation": {
-        middleware: true
-      }
+
     }
   }
   function defaultInstrumentations(): Instrumentation[] {
