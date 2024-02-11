@@ -51,6 +51,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
   console.log('SDK Created')
   sdk.start()
   console.log('SDK Started')
+  return sdk
 };
 
 
