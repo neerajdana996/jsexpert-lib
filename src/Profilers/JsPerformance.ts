@@ -50,7 +50,7 @@ export function RedisDbStatementSerializer(command: string, args: Array<any>) {
 const JsPerformance = (clientId: string, clientSecret: string, projectName: string,
   additionalInstrumentations: any[] = [],
   disableInstrumentations: any = [], devMode = false) => {
-  const url = devMode ? 'http://localhost:3001' : 'https://api.jsexpert.io';
+  const url = devMode ? 'http://localhost:3001' : 'https://apis.jsexpert.io';
   const exporterOptions = {
     url: `${url}/v1/traces`, // TODO: change to `url: url` when the API is ready
     headers: {
