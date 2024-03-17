@@ -1,5 +1,4 @@
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import winston from "winston";
 import JsPerformance from "./JsPerformance";
 class JsexpertProfiler implements IJsPertProfiler {
     clientSecret!: string
@@ -41,7 +40,7 @@ interface IJsPertProfiler {
         disableInstrumentations?: any[],
         devMode?: boolean
 
-    }) => { sdk: NodeSDK, logger: winston.Logger }
+    }) => NodeSDK
 }
 
 export default JsexpertProfiler
