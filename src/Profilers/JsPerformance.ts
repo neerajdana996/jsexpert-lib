@@ -222,7 +222,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     }),
   });
 
-  return sdk
+  return { sdk, logger }
 };
 
 
