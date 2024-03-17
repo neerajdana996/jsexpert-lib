@@ -24,14 +24,16 @@ import {
   RestifyInstrumentation,
   LayerType as RestifyLayerType
 } from "@opentelemetry/instrumentation-restify"
+import { WinstonInstrumentation } from '@opentelemetry/instrumentation-winston'
 import { NodeSDK } from "@opentelemetry/sdk-node"
-import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-base'
 import { PrismaInstrumentation } from "@prisma/instrumentation"
 
 
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http'
 import { Resource } from '@opentelemetry/resources'
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
+import { randomUUID } from "crypto"
+import winston from "winston"
 import { setParams, setSessionData } from './helpers'
 
 export function RedisDbStatementSerializer(command: string, args: Array<any>) {
@@ -58,6 +60,37 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
       clientsecret: clientSecret,
     },
   };
+  const { combine, timestamp, json, errors } = winston.format;
+  const logger = winston.createLogger({
+    format: combine(errors({ stack: true }), timestamp(), json()),
+    defaultMeta: {
+      clientId: clientId,
+      projectName
+    },
+    transports: [new winston.transports.Http({
+      host: url,
+      path: '/v1/logs',
+      auth: {
+        username: clientId,
+        password: clientSecret
+      },
+      batchInterval: 5000
+    })],
+    exceptionHandlers: [
+      new winston.transports.Http({
+        host: url,
+        path: '/v1/logs',
+        auth: {
+          username: clientId,
+          password: clientSecret
+        },
+        batchInterval: 5000
+      })
+    ]
+  })
+
+
+  logger.exitOnError = false;
   const DefaultInstrumentations = {
     "@opentelemetry/instrumentation-express": ExpressInstrumentation,
     "@opentelemetry/instrumentation-fastify": FastifyInstrumentation,
@@ -75,12 +108,23 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     "@opentelemetry/instrumentation-redis": RedisInstrumentation,
     "@opentelemetry/instrumentation-redis-4": Redis4Instrumentation,
     "@opentelemetry/instrumentation-restify": RestifyInstrumentation,
-    "@prisma/instrumentation": PrismaInstrumentation
+    "@prisma/instrumentation": PrismaInstrumentation,
+    "@opentelemetry/instrumentation-winston": WinstonInstrumentation
   }
   function defaultInstrumentationsConfig() {
 
 
     return {
+      "@opentelemetry/instrumentation-winston": {
+
+        ignoreInternalEvents: true,
+        enabled: true,
+        logHook: (span: any, record: any) => {
+          if (record) {
+            span.setAttribute('winston.log', record.message);
+          }
+        }
+      },
       "@opentelemetry/instrumentation-express": {
         requestHook: function (_span: any, info: any) {
           if (info.layerType === ExpressLayerType.REQUEST_HANDLER) {
@@ -88,6 +132,10 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
             const queryParams = info.request.query
             const requestBody = info.request.body
             const params = { ...routeParams, ...queryParams, ...requestBody }
+            const requestId = randomUUID()
+            info.request.jsexpertRequestId = requestId;
+            const childLogger = logger.child({ requestId, params });
+            info.request.requestLogger = childLogger
             setParams(params)
             setSessionData(info.request.cookies)
           }
@@ -162,7 +210,6 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
       )
   }
   const traceExporter = new OTLPTraceExporter(exporterOptions);
-  const consoleSpanExporter = new ConsoleSpanExporter();
   const sdk = new NodeSDK({
     traceExporter,
     instrumentations: [
@@ -174,6 +221,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
 
     }),
   });
+
   return sdk
 };
 
