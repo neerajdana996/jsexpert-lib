@@ -37,7 +37,6 @@ export class SpanProcessor implements OpenTelemetrySpanProcessor {
                 message: span.status.message
             }
         }
-        console.log(spanData)
 
     }
     shutdown(): Promise<void> {
