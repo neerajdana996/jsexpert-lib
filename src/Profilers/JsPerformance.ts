@@ -88,6 +88,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
             const requestBody = info.request.body || info.context.request.body
             const params = { routeParams, queryParams, requestBody }
             setParams(params, _span)
+
             setSessionData(info.request.cookies)
           }
         }
