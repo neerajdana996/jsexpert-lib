@@ -89,7 +89,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
             const params = { routeParams, queryParams, requestBody }
             setParams(params, _span)
 
-            setSessionData(info.request.cookies)
+            setSessionData(info.request.cookies, _span)
           }
         }
       },
