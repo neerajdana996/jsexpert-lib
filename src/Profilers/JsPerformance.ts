@@ -83,11 +83,12 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
       "@opentelemetry/instrumentation-express": {
         requestHook: function (_span: any, info: any) {
           if (info.layerType === ExpressLayerType.REQUEST_HANDLER) {
-            const routeParams = info.request.params
-            const queryParams = info.request.query
-            const requestBody = info.request.body
-            const params = { ...routeParams, ...queryParams, ...requestBody }
-            setParams(params)
+            const routeParams = info.request.params || info.context.request.params
+            const queryParams = info.request.query || info.context.request.query
+            const requestBody = info.request.body || info.context.request.body
+            console.log('instrumentation-express setting Params', { ...routeParams, ...queryParams, ...requestBody })
+            const params = { routeParams, queryParams, requestBody }
+            setParams(params, _span)
             setSessionData(info.request.cookies)
           }
         }
@@ -97,7 +98,7 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
           const queryParams = info.request.query
           const requestBody = info.request.body
           const params = { ...queryParams, ...requestBody }
-          setParams(params)
+          setParams(params, _span)
         }
       },
       "@opentelemetry/instrumentation-graphql": {
