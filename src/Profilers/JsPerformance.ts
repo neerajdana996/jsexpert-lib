@@ -82,12 +82,10 @@ const JsPerformance = (clientId: string, clientSecret: string, projectName: stri
     return {
       "@opentelemetry/instrumentation-express": {
         requestHook: function (_span: any, info: any) {
-          console.log('instrumentation-express setting Params', info);
           if (info.layerType === ExpressLayerType.REQUEST_HANDLER) {
             const routeParams = info.request.params || info.context.request.params
             const queryParams = info.request.query || info.context.request.query
             const requestBody = info.request.body || info.context.request.body
-            console.log('instrumentation-express setting Params', { ...routeParams, ...queryParams, ...requestBody })
             const params = { routeParams, queryParams, requestBody }
             setParams(params, _span)
             setSessionData(info.request.cookies)
